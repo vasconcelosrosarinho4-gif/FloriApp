@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#155e63">
+  <meta name="description" content="Uma aplicação web progressiva pronta para funcionar online e offline.">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./assets/images/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <title>Meu Projecto PWA</title>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="Meu Projecto PWA, início">
+      <img src="./assets/images/logo.svg" alt="" width="36" height="36">
+      <span>Meu Projecto</span>
+    </a>
+    <nav aria-label="Navegação principal">
+      <a href="./index.html" aria-current="page">Início</a>
+      <a href="./pages/sobre.html">Sobre</a>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">Aplicação web progressiva</p>
+      <h1 id="page-title">O teu projecto começa aqui.</h1>
+      <p class="lead">Uma base leve, instalável e preparada para continuar disponível sem ligação à internet.</p>
+      <p class="connection" id="connection-status" role="status" aria-live="polite">A verificar ligação...</p>
+    </section>
+    <section class="next-steps" aria-labelledby="next-title">
+      <h2 id="next-title">Estrutura pronta</h2>
+      <p>Personaliza esta página e acrescenta os teus próprios módulos em <code>assets/js/modules/</code>.</p>
+      <a class="text-link" href="./pages/sobre.html">Conhecer o projecto <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+
+  <footer class="site-footer">Feito para funcionar em qualquer ligação.</footer>
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>
