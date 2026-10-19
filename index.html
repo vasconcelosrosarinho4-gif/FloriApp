@@ -4,55 +4,84 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#315e50">
-	<meta name="description" content="A FloriApp ajuda educadores de infância a organizar atividades e acompanhar o desenvolvimento das crianças.">
+	<meta name="description" content="A FloriApp ajuda jardineiros a organizar regas, tarefas e acompanhar o estado das plantas.">
 	<link rel="manifest" href="./manifest.json">
 	<link rel="icon" href="./assets/images/logo.svg" type="image/svg+xml">
 	<link rel="stylesheet" href="./assets/css/styles.css">
-	<title>FloriApp | Organização pedagógica</title>
+	<title>FloriApp | Jardim e plantas</title>
 </head>
 <body>
 	<header class="topbar">
 		<a class="brand" href="./index.html" aria-label="FloriApp, início"><img src="./assets/images/logo.svg" alt="" width="38" height="38"><span>flori<span class="brand-accent">app</span></span></a>
-		<div class="topbar-right"><span class="privacy-status"><span class="status-dot"></span><span id="connection-status">Dados guardados neste dispositivo</span></span><div class="account-chip" aria-label="Perfil de demonstração"><span class="account-avatar" aria-hidden="true">E</span><span class="account-copy"><strong id="account-name">Educadora de Teste</strong><small id="account-role">Perfil de demonstração</small></span></div><a class="about-link" href="./pages/sobre.html">Sobre o projeto</a></div>
+		<div class="topbar-right"><span class="privacy-status"><span class="status-dot"></span><span id="connection-status">Dados guardados neste dispositivo</span></span><div class="account-chip" aria-label="Perfil de demonstração"><span class="account-avatar" aria-hidden="true">J</span><span class="account-copy"><strong id="account-name">Jardineira de Teste</strong><small id="account-role">Perfil de demonstração</small></span></div><button class="button button-quiet topbar-create" type="button" data-open-login>Entrar</button><button class="button button-quiet topbar-create" type="button" data-open-account>Criar conta</button><a class="about-link" href="./pages/sobre.html">Sobre o projeto</a></div>
 	</header>
 	<div class="app-layout">
 		<aside class="sidebar" aria-label="Navegação da aplicação">
-			<p class="sidebar-label">ESPAÇO EDUCATIVO</p>
+			<p class="sidebar-label">ESPAÇO DO JARDIM</p>
 			<nav class="side-nav">
 				<button class="nav-item is-active" type="button" data-view-target="dashboard" aria-current="page"><span class="nav-symbol" aria-hidden="true">⌂</span>Visão geral</button>
 				<button class="nav-item" type="button" data-view-target="activities"><span class="nav-symbol" aria-hidden="true">▦</span>Atividades</button>
-				<button class="nav-item" type="button" data-view-target="children"><span class="nav-symbol" aria-hidden="true">○</span>Crianças</button>
+				<button class="nav-item" type="button" data-view-target="plants"><span class="nav-symbol" aria-hidden="true">○</span>Plantas</button>
 			</nav>
-			<div class="sidebar-note"><span class="note-flower" aria-hidden="true">✿</span><p>Pequenos passos<br>também fazem florescer.</p></div>
+			<div class="sidebar-note"><span class="note-flower" aria-hidden="true">✿</span><p>Cuidados diários<br>fazem o jardim florescer.</p></div>
 			<a class="sidebar-about" href="./pages/sobre.html">Conhecer a FloriApp <span aria-hidden="true">↗</span></a>
 		</aside>
 		<main class="main-content">
 			<section class="view" id="view-dashboard" aria-labelledby="dashboard-title">
-				<div class="page-heading"><div><p class="eyebrow">O teu espaço de trabalho</p><h1 id="dashboard-title">Bom dia, <span id="educator-name">Educadora de Teste</span>.</h1><p class="heading-subtitle" id="today-date"></p></div><button class="button button-primary" type="button" data-open-activity><span aria-hidden="true">+</span> Nova atividade</button></div>
-				<div class="stats-grid" aria-label="Resumo do grupo">
+				<div class="page-heading"><div><p class="eyebrow">O teu espaço de trabalho</p><h1 id="dashboard-title">Bom dia, <span id="educator-name">Jardineira de Teste</span>.</h1><p class="heading-subtitle" id="today-date"></p></div><button class="button button-primary" type="button" data-open-activity><span aria-hidden="true">+</span> Nova atividade</button></div>
+				<div class="hero-banner" aria-label="Resumo do jardim em destaque">
+					<div class="hero-copy">
+						<span class="hero-badge">Jardim em crescimento</span>
+						<h2>Cuida das tuas plantas com organização e calma.</h2>
+						<p>Organiza regas, manutenções e tarefas diárias para que cada vaso e canteiro continue a florescer.</p>
+					</div>
+					<div class="hero-metrics" aria-label="Indicadores do jardim">
+						<div class="hero-metric"><strong>76%</strong><span>saúde geral</span></div>
+						<div class="hero-metric"><strong>3</strong><span>ações hoje</span></div>
+						<div class="hero-metric"><strong>5</strong><span>plantas prioritárias</span></div>
+					</div>
+				</div>
+				<div class="stats-grid" aria-label="Resumo do jardim">
 					<article class="stat-item stat-green"><span class="stat-icon" aria-hidden="true">▦</span><div><p>Atividades planeadas</p><strong id="activity-count">0</strong></div><span class="stat-foot">no teu planeamento</span></article>
-					<article class="stat-item stat-peach"><span class="stat-icon" aria-hidden="true">○</span><div><p>Crianças no grupo</p><strong id="children-count">0</strong></div><span class="stat-foot">perfis de demonstração</span></article>
-					<article class="stat-item stat-yellow"><span class="stat-icon" aria-hidden="true">✓</span><div><p>Tarefas por concluir</p><strong id="task-count">0</strong></div><span class="stat-foot">pequenas coisas a tratar</span></article>
+					<article class="stat-item stat-peach"><span class="stat-icon" aria-hidden="true">○</span><div><p>Plantas no jardim</p><strong id="plants-count">0</strong></div><span class="stat-foot">registos de demonstração</span></article>
+					<article class="stat-item stat-yellow"><span class="stat-icon" aria-hidden="true">✓</span><div><p>Tarefas por concluir</p><strong id="task-count">0</strong></div><span class="stat-foot">cuidados pendentes</span></article>
 				</div>
 				<div class="dashboard-columns">
 					<section class="panel agenda-panel" aria-labelledby="agenda-title"><div class="section-heading"><div><p class="eyebrow">Organiza a semana</p><h2 id="agenda-title">Próximas atividades</h2></div><button class="text-button" type="button" data-view-target="activities">Ver todas <span aria-hidden="true">→</span></button></div><div class="activity-list" id="dashboard-activities" aria-live="polite"></div></section>
 					<section class="panel tasks-panel" aria-labelledby="tasks-title"><div class="section-heading"><div><p class="eyebrow">Um dia de cada vez</p><h2 id="tasks-title">Lista de tarefas</h2></div><span class="task-marker" aria-hidden="true">✳</span></div><div class="task-list" id="task-list"></div></section>
 				</div>
-				<p class="local-note"><span aria-hidden="true">i</span> Esta versão de demonstração guarda os dados apenas neste dispositivo. Evita inserir dados pessoais ou informações sensíveis das crianças.</p>
+				<p class="local-note"><span aria-hidden="true">i</span> Esta versão de demonstração guarda os dados apenas neste dispositivo. Evita inserir informações sensíveis sobre clientes ou fornecedores.</p>
 			</section>
-			<section class="view" id="view-activities" aria-labelledby="activities-title" hidden><div class="page-heading"><div><p class="eyebrow">Planeamento pedagógico</p><h1 id="activities-title">Atividades</h1><p class="heading-subtitle">Planeia experiências para aprender, criar e crescer.</p></div><button class="button button-primary" type="button" data-open-activity><span aria-hidden="true">+</span> Nova atividade</button></div><section class="panel activities-panel"><div class="section-heading"><div><p class="eyebrow">O que vem a seguir</p><h2>Agenda do grupo</h2></div><span class="list-caption">Guardada localmente</span></div><div class="activity-list" id="activity-list" aria-live="polite"></div></section></section>
-			<section class="view" id="view-children" aria-labelledby="children-title" hidden><div class="page-heading"><div><p class="eyebrow">Acompanhar com atenção</p><h1 id="children-title">Crianças</h1><p class="heading-subtitle">Um olhar sobre interesses e experiências do grupo.</p></div></div><div class="privacy-banner"><span aria-hidden="true">♡</span><p>Os perfis apresentados são exemplos anónimos. O acompanhamento real deve respeitar a privacidade e a proteção de dados de cada criança.</p></div><div class="children-grid" id="children-grid"></div></section>
+			<section class="view" id="view-activities" aria-labelledby="activities-title" hidden><div class="page-heading"><div><p class="eyebrow">Planeamento do jardim</p><h1 id="activities-title">Atividades</h1><p class="heading-subtitle">Organiza regas, fertilização e manutenções para manter cada planta saudável.</p></div><button class="button button-primary" type="button" data-open-activity><span aria-hidden="true">+</span> Nova atividade</button></div><section class="panel activities-panel"><div class="section-heading"><div><p class="eyebrow">O que vem a seguir</p><h2>Agenda do jardim</h2></div><span class="list-caption">Guardada localmente</span></div><div class="activity-list" id="activity-list" aria-live="polite"></div></section></section>
+			<section class="view" id="view-plants" aria-labelledby="plants-title" hidden><div class="page-heading"><div><p class="eyebrow">Acompanhar o estado do jardim</p><h1 id="plants-title">Plantas</h1><p class="heading-subtitle">Uma visão rápida dos cuidados e do desenvolvimento de cada espécie.</p></div></div><div class="privacy-banner"><span aria-hidden="true">♡</span><p>Os perfis apresentados são exemplos de plantas em demonstração. Em uso real, confirma sempre as necessidades específicas de cada espécie.</p></div><div class="plants-grid" id="plants-grid"></div></section>
 		</main>
 	</div>
 	<dialog class="activity-dialog" id="activity-dialog" aria-labelledby="dialog-title">
-		<form id="activity-form"><div class="dialog-heading"><div><p class="eyebrow">Planeamento pedagógico</p><h2 id="dialog-title">Nova atividade</h2></div><button class="dialog-close" type="button" aria-label="Fechar" data-close-dialog>×</button></div>
-			<label class="field-label" for="activity-title">Nome da atividade</label><input id="activity-title" name="title" required maxlength="80" placeholder="Ex.: Descobrir as cores do outono">
-			<div class="form-row"><div><label class="field-label" for="activity-area">Área de aprendizagem</label><select id="activity-area" name="area" required><option value="Expressão plástica">Expressão plástica</option><option value="Linguagem e comunicação">Linguagem e comunicação</option><option value="Conhecimento do mundo">Conhecimento do mundo</option><option value="Expressão motora">Expressão motora</option><option value="Matemática">Matemática</option></select></div><div><label class="field-label" for="activity-date">Data</label><input id="activity-date" name="date" type="date" required></div></div>
-			<div class="form-row"><div><label class="field-label" for="activity-time">Hora</label><input id="activity-time" name="time" type="time" value="10:00" required></div><div><label class="field-label" for="activity-group">Grupo</label><input id="activity-group" name="group" maxlength="40" placeholder="Ex.: Sala dos 5 anos"></div></div>
-			<p class="form-privacy">Não incluas nomes nem dados pessoais de crianças neste registo.</p><div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>Cancelar</button><button class="button button-primary" type="submit">Guardar atividade</button></div>
+		<form id="activity-form"><div class="dialog-heading"><div><p class="eyebrow">Planeamento do jardim</p><h2 id="dialog-title">Nova atividade</h2></div><button class="dialog-close" type="button" aria-label="Fechar" data-close-dialog>×</button></div>
+			<label class="field-label" for="activity-title">Nome da atividade</label><input id="activity-title" name="title" required maxlength="80" placeholder="Ex.: Rega dos canteiros de rosas">
+			<div class="form-row"><div><label class="field-label" for="activity-area">Área de cuidado</label><select id="activity-area" name="area" required><option value="Cuidados diários">Cuidados diários</option><option value="Nutrição e solo">Nutrição e solo</option><option value="Manutenção">Manutenção</option><option value="Rega">Rega</option><option value="Iluminação">Iluminação</option></select></div><div><label class="field-label" for="activity-date">Data</label><input id="activity-date" name="date" type="date" required></div></div>
+			<div class="form-row"><div><label class="field-label" for="activity-time">Hora</label><input id="activity-time" name="time" type="time" value="10:00" required></div><div><label class="field-label" for="activity-group">Zona</label><input id="activity-group" name="group" maxlength="40" placeholder="Ex.: Jardim exterior"></div></div>
+			<p class="form-privacy">Não incluas dados pessoais de clientes ou fornecedores neste registo.</p><div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>Cancelar</button><button class="button button-primary" type="submit">Guardar atividade</button></div>
 		</form>
 	</dialog>
-	<footer class="app-footer"><span>FloriApp · PAP de Informática</span><a href="./pages/sobre.html">Introdução e enquadramento</a></footer>
+	<dialog class="activity-dialog account-dialog" id="account-dialog" aria-labelledby="account-dialog-title">
+		<form id="account-form"><div class="dialog-heading"><div><p class="eyebrow">Bem-vindo ao FloriApp</p><h2 id="account-dialog-title">Criar conta</h2></div><button class="dialog-close" type="button" aria-label="Fechar" data-close-account>×</button></div>
+			<label class="field-label" for="account-name-input">Nome completo</label><input id="account-name-input" name="name" type="text" required maxlength="60" placeholder="Ex.: Ana Pereira">
+			<label class="field-label" for="account-email">Email</label><input id="account-email" name="email" type="email" required maxlength="80" placeholder="ana@email.com">
+			<label class="field-label" for="account-role-input">Função</label><input id="account-role-input" name="role" type="text" maxlength="50" placeholder="Ex.: Gestora de jardim">
+			<p class="form-privacy">A tua conta é guardada apenas neste dispositivo para a demonstração.</p>
+			<div class="dialog-actions"><button class="button button-quiet" type="button" data-close-account>Cancelar</button><button class="button button-primary" type="submit">Guardar conta</button></div>
+		</form>
+	</dialog>
+	<dialog class="activity-dialog account-dialog" id="login-dialog" aria-labelledby="login-dialog-title">
+		<form id="login-form"><div class="dialog-heading"><div><p class="eyebrow">Já tens conta?</p><h2 id="login-dialog-title">Entrar</h2></div><button class="dialog-close" type="button" aria-label="Fechar" data-close-login>×</button></div>
+			<label class="field-label" for="login-email">Email</label><input id="login-email" name="email" type="email" required maxlength="80" placeholder="ana@email.com">
+			<label class="field-label" for="login-password">Palavra-passe</label><input id="login-password" name="password" type="password" required maxlength="40" placeholder="••••••••">
+			<p class="form-privacy">Para esta demonstração, usa o email com que criaste a conta.</p>
+			<div class="dialog-actions"><button class="button button-quiet" type="button" data-close-login>Cancelar</button><button class="button button-primary" type="submit">Entrar</button></div>
+		</form>
+	</dialog>
+	<footer class="app-footer"><span>FloriApp · Projeto de floricultura</span><a href="./pages/sobre.html">Introdução e enquadramento</a></footer>
 	<script type="module" src="./assets/js/app.js"></script>
 </body>
 </html>
