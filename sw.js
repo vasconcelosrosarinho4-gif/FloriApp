@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meu-projecto-pwa-v1';
+const CACHE_NAME = 'floriapp-educacao-v3';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const APP_SHELL = [
   './pages/offline.html',
   './pages/sobre.html',
   './assets/css/styles.css',
+  './assets/css/components/dashboard.css',
   './assets/js/app.js',
   './assets/js/db.js',
   './assets/js/modules/api.js',
@@ -53,7 +54,5 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  event.respondWith(
-    caches.match(request).then(cached => cached || fetch(request))
-  );
+  event.respondWith(caches.match(request).then(cached => cached || fetch(request)));
 });
