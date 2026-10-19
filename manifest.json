@@ -1,8 +1,8 @@
 {
   "id": "./index.html",
-  "name": "FloriApp | Organização pedagógica",
+  "name": "FloriApp | Jardim e plantas",
   "short_name": "Floriapp",
-  "description": "Organização de atividades e acompanhamento pedagógico para educadores de infância.",
+  "description": "Organização de tarefas e acompanhamento de plantas e flores em floricultura ou jardim.",
   "lang": "pt-PT",
   "start_url": "./index.html",
   "scope": "./",
