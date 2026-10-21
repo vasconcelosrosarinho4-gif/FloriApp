@@ -1,5 +1,5 @@
 const DATABASE_NAME = 'floriapp';
-const DATABASE_VERSION = 3;
+const DATABASE_VERSION = 4;
 
 export function openDatabase() {
   return new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ export function openDatabase() {
       if (!database.objectStoreNames.contains('flowers')) database.createObjectStore('flowers', { keyPath: 'id' });
       if (!database.objectStoreNames.contains('activities')) database.createObjectStore('activities', { keyPath: 'id' });
       if (!database.objectStoreNames.contains('tasks')) database.createObjectStore('tasks', { keyPath: 'id' });
-      if (!database.objectStoreNames.contains('children')) database.createObjectStore('children', { keyPath: 'id' });
+      if (!database.objectStoreNames.contains('plants')) database.createObjectStore('plants', { keyPath: 'id' });
       if (!database.objectStoreNames.contains('educators')) database.createObjectStore('educators', { keyPath: 'id' });
     };
     request.onsuccess = () => resolve(request.result);

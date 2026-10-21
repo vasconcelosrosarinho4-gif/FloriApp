@@ -1,20 +1,24 @@
 import { deleteRecord, getAllRecords, saveRecord } from './db.js';
-import { renderActivities, renderChildren, renderTasks } from './modules/UI.js';
+import { renderActivities, renderPlants, renderTasks } from './modules/UI.js';
 
 const activityDialog = document.querySelector('#activity-dialog');
 const activityForm = document.querySelector('#activity-form');
+const accountDialog = document.querySelector('#account-dialog');
+const accountForm = document.querySelector('#account-form');
+const loginDialog = document.querySelector('#login-dialog');
+const loginForm = document.querySelector('#login-form');
 const activityList = document.querySelector('#activity-list');
 const dashboardActivities = document.querySelector('#dashboard-activities');
 const taskList = document.querySelector('#task-list');
-const childrenGrid = document.querySelector('#children-grid');
+const plantsGrid = document.querySelector('#plants-grid');
 const statusMessage = document.querySelector('#connection-status');
 const views = [...document.querySelectorAll('.view')];
-const demoEducator = { id: 'educator-demo', name: 'Educadora de Teste', role: 'Educadora de infância', accountType: 'demo' };
+const demoGardener = { id: 'gardener-demo', name: 'Jardineira de Teste', role: 'Responsável de jardim', accountType: 'demo' };
 
-const sampleChildren = [
-  { id: 'demo-a', label: 'Criança A', interest: 'Construção e exploração', progress: 68, color: 'mint' },
-  { id: 'demo-b', label: 'Criança B', interest: 'Histórias e expressão', progress: 82, color: 'peach' },
-  { id: 'demo-c', label: 'Criança C', interest: 'Movimento e descoberta', progress: 54, color: 'yellow' }
+const samplePlants = [
+  { id: 'demo-plant-a', label: 'Orquídea', interest: 'Rega moderada e luz indireta', progress: 76, color: 'mint' },
+  { id: 'demo-plant-b', label: 'Lavanda', interest: 'Sol directo e drenagem leve', progress: 84, color: 'peach' },
+  { id: 'demo-plant-c', label: 'Suculenta', interest: 'Humidade baixa e exposição solar', progress: 61, color: 'yellow' }
 ];
 
 function dateOffset(offset) {
@@ -24,15 +28,15 @@ function dateOffset(offset) {
 }
 
 const sampleActivities = [
-  { id: 'demo-activity-1', title: 'Ateliê das cores de outono', area: 'Expressão plástica', date: dateOffset(0), time: '10:00', group: 'Sala dos 5 anos' },
-  { id: 'demo-activity-2', title: 'Histórias que crescem', area: 'Linguagem e comunicação', date: dateOffset(1), time: '11:00', group: 'Grupo da manhã' },
-  { id: 'demo-activity-3', title: 'Pequenos exploradores da natureza', area: 'Conhecimento do mundo', date: dateOffset(2), time: '09:30', group: 'Sala dos 5 anos' }
+  { id: 'demo-activity-1', title: 'Rega dos canteiros', area: 'Cuidados diários', date: dateOffset(0), time: '08:30', group: 'Jardim exterior' },
+  { id: 'demo-activity-2', title: 'Adubação de rosas', area: 'Nutrição e solo', date: dateOffset(1), time: '11:00', group: 'Área de flores' },
+  { id: 'demo-activity-3', title: 'Podas da horta', area: 'Manutenção', date: dateOffset(2), time: '09:15', group: 'Zona de ervas' }
 ];
 
 const sampleTasks = [
-  { id: 'demo-task-1', title: 'Preparar materiais para o ateliê', done: false },
-  { id: 'demo-task-2', title: 'Organizar a leitura da semana', done: false },
-  { id: 'demo-task-3', title: 'Rever o planeamento do grupo', done: true }
+  { id: 'demo-task-1', title: 'Verificar humidade do vaso da orquídea', done: false },
+  { id: 'demo-task-2', title: 'Recolher folhas secas da lavanda', done: false },
+  { id: 'demo-task-3', title: 'Preparar a mistura de fertilizante', done: true }
 ];
 
 async function seedStore(store, records) {
@@ -41,18 +45,18 @@ async function seedStore(store, records) {
 }
 
 async function refreshDashboard() {
-  const [activities, tasks, children] = await Promise.all([
+  const [activities, tasks, plants] = await Promise.all([
     getAllRecords('activities'),
     getAllRecords('tasks'),
-    getAllRecords('children')
+    getAllRecords('plants')
   ]);
   const orderedActivities = activities.sort((first, second) => `${first.date}${first.time}`.localeCompare(`${second.date}${second.time}`));
   renderActivities(activityList, orderedActivities);
   renderActivities(dashboardActivities, orderedActivities.slice(0, 3));
   renderTasks(taskList, tasks);
-  renderChildren(childrenGrid, children);
+  renderPlants(plantsGrid, plants);
   document.querySelector('#activity-count').textContent = String(activities.length);
-  document.querySelector('#children-count').textContent = String(children.length);
+  document.querySelector('#plants-count').textContent = String(plants.length);
   document.querySelector('#task-count').textContent = String(tasks.filter(task => !task.done).length);
 }
 
@@ -80,6 +84,59 @@ document.querySelectorAll('[data-open-activity]').forEach(button => {
 });
 
 document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => activityDialog.close()));
+document.querySelectorAll('[data-close-account]').forEach(button => button.addEventListener('click', () => accountDialog.close()));
+document.querySelectorAll('[data-close-login]').forEach(button => button.addEventListener('click', () => loginDialog.close()));
+document.querySelectorAll('[data-open-account]').forEach(button => button.addEventListener('click', () => {
+  accountForm.reset();
+  accountDialog.showModal();
+}));
+document.querySelectorAll('[data-open-login]').forEach(button => button.addEventListener('click', () => {
+  loginForm.reset();
+  loginDialog.showModal();
+}));
+
+accountForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const formData = new FormData(accountForm);
+  const name = formData.get('name').trim();
+  const role = formData.get('role').trim() || 'Gestor de jardim';
+  const email = formData.get('email').trim();
+
+  const account = {
+    id: `account-${crypto.randomUUID()}`,
+    name,
+    role,
+    email,
+    accountType: 'custom'
+  };
+
+  await saveRecord('educators', account);
+  document.querySelector('#account-name').textContent = account.name;
+  document.querySelector('#account-role').textContent = 'Conta pessoal';
+  document.querySelector('#educator-name').textContent = account.name;
+  accountDialog.close();
+  statusMessage.textContent = 'Conta criada com sucesso';
+});
+
+loginForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const formData = new FormData(loginForm);
+  const email = String(formData.get('email') || '').trim().toLowerCase();
+  const educators = await getAllRecords('educators');
+  const match = educators.find(item => String(item.email || '').trim().toLowerCase() === email);
+
+  if (!match) {
+    statusMessage.textContent = 'Conta não encontrada. Cria uma conta primeiro.';
+    loginDialog.close();
+    return;
+  }
+
+  document.querySelector('#account-name').textContent = match.name;
+  document.querySelector('#account-role').textContent = match.role || 'Conta pessoal';
+  document.querySelector('#educator-name').textContent = match.name;
+  loginDialog.close();
+  statusMessage.textContent = `Bem-vindo(a), ${match.name}`;
+});
 
 activityForm.addEventListener('submit', async event => {
   event.preventDefault();
@@ -90,7 +147,7 @@ activityForm.addEventListener('submit', async event => {
     area: formData.get('area'),
     date: formData.get('date'),
     time: formData.get('time'),
-    group: formData.get('group').trim() || 'Grupo'
+    group: formData.get('group').trim() || 'Jardim'
   });
   activityDialog.close();
   await refreshDashboard();
@@ -117,16 +174,24 @@ window.addEventListener('online', () => { statusMessage.textContent = 'Ligação
 window.addEventListener('offline', () => { statusMessage.textContent = 'Sem ligação · podes continuar a trabalhar'; });
 
 try {
-  await seedStore('educators', [demoEducator]);
+  await seedStore('educators', [demoGardener]);
   await seedStore('activities', sampleActivities);
   await seedStore('tasks', sampleTasks);
-  await seedStore('children', sampleChildren);
+  await seedStore('plants', samplePlants);
   const educators = await getAllRecords('educators');
-  const educator = educators.find(item => item.id === demoEducator.id) || demoEducator;
+  const educator = educators.find(item => item.id === demoGardener.id) || educators[0] || demoGardener;
   document.querySelector('#account-name').textContent = educator.name;
-  document.querySelector('#account-role').textContent = educator.accountType === 'demo' ? 'Perfil de demonstração' : educator.role;
+  document.querySelector('#account-role').textContent = educator.accountType === 'demo' ? 'Perfil de demonstração' : (educator.role || 'Conta pessoal');
   document.querySelector('#educator-name').textContent = educator.name;
   await refreshDashboard();
+
+  if (educator.accountType === 'demo') {
+    window.setTimeout(() => {
+      if (accountDialog && !accountDialog.open) {
+        accountDialog.showModal();
+      }
+    }, 250);
+  }
 } catch (error) {
   statusMessage.textContent = 'Não foi possível abrir o armazenamento local';
   console.error('Erro ao carregar a FloriApp:', error);

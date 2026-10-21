@@ -47,29 +47,29 @@ export function renderTasks(container, tasks) {
   }));
 }
 
-export function renderChildren(container, children) {
-  container.replaceChildren(...children.map(child => {
+export function renderPlants(container, plants) {
+  container.replaceChildren(...plants.map(plant => {
     const article = document.createElement('article');
-    article.className = `child-item child-${child.color}`;
+    article.className = `plant-item plant-${plant.color}`;
     const avatar = document.createElement('span');
-    avatar.className = 'child-avatar';
+    avatar.className = 'plant-avatar';
     avatar.setAttribute('aria-hidden', 'true');
-    avatar.textContent = child.label.slice(-1);
+    avatar.textContent = plant.label.slice(0, 1);
     const name = document.createElement('h2');
-    name.textContent = child.label;
+    name.textContent = plant.label;
     const caption = document.createElement('p');
-    caption.className = 'child-caption';
-    caption.textContent = 'Interesse em destaque';
+    caption.className = 'plant-caption';
+    caption.textContent = 'Cuidados em destaque';
     const interest = document.createElement('p');
-    interest.className = 'child-interest';
-    interest.textContent = child.interest;
+    interest.className = 'plant-interest';
+    interest.textContent = plant.interest;
     const progressLabel = document.createElement('label');
     progressLabel.className = 'progress-label';
-    progressLabel.textContent = `Experiências registadas · ${child.progress}%`;
+    progressLabel.textContent = `Saúde da planta · ${plant.progress}%`;
     const progress = document.createElement('progress');
     progress.max = 100;
-    progress.value = child.progress;
-    progress.setAttribute('aria-label', `Exemplo de progresso: ${child.progress}%`);
+    progress.value = plant.progress;
+    progress.setAttribute('aria-label', `Estado de saúde: ${plant.progress}%`);
     article.append(avatar, name, caption, interest, progressLabel, progress);
     return article;
   }));
