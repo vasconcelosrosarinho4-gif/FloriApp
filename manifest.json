@@ -2,6 +2,7 @@
   "id": "./index.html",
   "name": "FloriApp | Jardim e plantas",
   "short_name": "Floriapp",
+  "version": "1.1.0",
   "description": "Organização de tarefas e acompanhamento de plantas e flores em floricultura ou jardim.",
   "lang": "pt-PT",
   "start_url": "./index.html",

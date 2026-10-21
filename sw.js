@@ -1,4 +1,4 @@
-const CACHE_NAME = 'floriapp-jardim-v1';
+const CACHE_NAME = 'floriapp-jardim-v2';
 const APP_SHELL = [
   './',
   './index.html',
