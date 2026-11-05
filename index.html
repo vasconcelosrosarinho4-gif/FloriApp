@@ -57,18 +57,27 @@
 			<section class="view" id="view-activities" aria-labelledby="activities-title" hidden><div class="page-heading"><div><p class="eyebrow">Planeamento do jardim</p><h1 id="activities-title">Atividades</h1><p class="heading-subtitle">Organiza regas, fertilização e manutenções para manter cada planta saudável.</p></div><button class="button button-primary" type="button" data-open-activity><span aria-hidden="true">+</span> Nova atividade</button></div><section class="panel activities-panel"><div class="section-heading"><div><p class="eyebrow">O que vem a seguir</p><h2>Agenda do jardim</h2></div><span class="list-caption">Guardada localmente</span></div><div class="activity-list" id="activity-list" aria-live="polite"></div></section></section>
 			<section class="view" id="view-plants" aria-labelledby="plants-title" hidden><div class="page-heading"><div><p class="eyebrow">Acompanhar o estado do jardim</p><h1 id="plants-title">Plantas</h1><p class="heading-subtitle">Uma visão rápida dos cuidados e do desenvolvimento de cada espécie.</p></div><button class="button button-primary" type="button" data-open-plant><span aria-hidden="true">+</span> Adicionar planta</button></div><div class="privacy-banner"><span aria-hidden="true">♡</span><p>Os perfis de demonstração são exemplos. As plantas que adicionares ficam guardadas neste dispositivo.</p></div><div class="plants-grid" id="plants-grid"></div></section>
 			<section class="view" id="view-catalog" aria-labelledby="catalog-title" hidden>
-				<div class="page-heading"><div><p class="eyebrow">Seleção da floricultura</p><h1 id="catalog-title">Catálogo</h1><p class="heading-subtitle">Flores e plantas para levar mais vida ao teu espaço.</p></div></div>
+				<div class="page-heading"><div><p class="eyebrow">Biblioteca de plantas</p><h1 id="catalog-title">Descobrir plantas</h1><p class="heading-subtitle">Pesquisa pelo nome ou por características e compara os cuidados de cada espécie.</p></div></div>
 				<div class="catalog-toolbar">
 					<label class="catalog-search-label" for="catalog-search">Pesquisar no catálogo</label>
-					<input id="catalog-search" type="search" placeholder="Pesquisar flores e plantas..." autocomplete="off">
+					<input id="catalog-search" type="search" placeholder="Nome, espécie, luz, rega ou solo..." autocomplete="off">
 					<label class="catalog-search-label" for="catalog-category">Categoria</label>
 					<select id="catalog-category">
 						<option value="all">Todas as categorias</option>
 						<option value="Floração">Floração</option>
-						<option value="Interior">Plantas de interior</option>
+						<option value="Folhagem">Folhagem</option>
 						<option value="Suculentas">Suculentas</option>
+						<option value="Aromáticas">Aromáticas</option>
+						<option value="Horta">Horta</option>
+					</select>
+					<label class="catalog-search-label" for="catalog-location">Localização</label>
+					<select id="catalog-location">
+						<option value="all">Interior e exterior</option>
+						<option value="Interior">Interior</option>
+						<option value="Exterior">Exterior</option>
 					</select>
 				</div>
+				<p class="catalog-guidance">Os cuidados podem variar com o clima, a estação e a variedade. Confirma sempre as necessidades da tua planta.</p>
 				<div class="catalog-grid" id="catalog-grid" aria-live="polite"></div>
 			</section>
 		</main>

@@ -83,19 +83,21 @@ export function renderPlants(container, plants) {
   }));
 }
 
-export function renderCatalog(container, products, search = '', category = 'all') {
+export function renderCatalog(container, products, search = '', category = 'all', location = 'all') {
   if (!container) return;
-  const query = search.trim().toLocaleLowerCase('pt-PT');
+  const normalizeText = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-PT');
+  const query = normalizeText(search.trim());
   const matchingProducts = products.filter(product => {
     const matchesCategory = category === 'all' || product.category === category;
-    const searchableText = `${product.name} ${product.description} ${product.category}`.toLocaleLowerCase('pt-PT');
-    return matchesCategory && searchableText.includes(query);
+    const matchesLocation = location === 'all' || product.location === location;
+    const searchableText = normalizeText(`${product.name} ${product.scientificName || ''} ${product.description} ${product.category} ${product.location || ''} ${product.light || ''} ${product.water || ''} ${product.soil || ''} ${product.size || ''} ${product.flowering || ''} ${product.pets || ''} ${product.keywords || ''}`);
+    return matchesCategory && matchesLocation && searchableText.includes(query);
   });
 
   if (matchingProducts.length === 0) {
     const empty = document.createElement('p');
     empty.className = 'empty-message';
-    empty.textContent = 'Não encontrámos produtos com esses filtros.';
+    empty.textContent = 'Não encontrámos plantas com esses filtros. Experimenta outras palavras ou categorias.';
     container.replaceChildren(empty);
     return;
   }
@@ -114,9 +116,36 @@ export function renderCatalog(container, products, search = '', category = 'all'
     categoryLabel.textContent = product.category;
     const name = document.createElement('h2');
     name.textContent = product.name;
+    const scientificName = document.createElement('p');
+    scientificName.className = 'catalog-scientific-name';
+    scientificName.textContent = product.scientificName || '';
     const description = document.createElement('p');
     description.textContent = product.description;
-    details.append(categoryLabel, name, description);
+    details.append(categoryLabel, name);
+    if (product.scientificName) details.append(scientificName);
+    details.append(description);
+
+    const facts = document.createElement('dl');
+    facts.className = 'catalog-facts';
+    [
+      ['Local', product.location],
+      ['Luz', product.light],
+      ['Rega', product.water],
+      ['Solo', product.soil],
+      ['Porte', product.size],
+      ['Floração', product.flowering],
+      ['Atenção', product.pets]
+    ].forEach(([label, value]) => {
+      if (!value) return;
+      const row = document.createElement('div');
+      const term = document.createElement('dt');
+      term.textContent = label;
+      const definition = document.createElement('dd');
+      definition.textContent = value;
+      row.append(term, definition);
+      facts.append(row);
+    });
+    details.append(facts);
     article.append(illustration, details);
     return article;
   }));
