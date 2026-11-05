@@ -1,8 +1,10 @@
 import { deleteRecord, getAllRecords, saveRecord } from './db.js';
-import { renderActivities, renderPlants, renderTasks } from './modules/UI.js';
+import { renderActivities, renderCatalog, renderPlants, renderTasks } from './modules/UI.js';
 
 const activityDialog = document.querySelector('#activity-dialog');
 const activityForm = document.querySelector('#activity-form');
+const plantDialog = document.querySelector('#plant-dialog');
+const plantForm = document.querySelector('#plant-form');
 const accountDialog = document.querySelector('#account-dialog');
 const accountForm = document.querySelector('#account-form');
 const loginDialog = document.querySelector('#login-dialog');
@@ -11,14 +13,27 @@ const activityList = document.querySelector('#activity-list');
 const dashboardActivities = document.querySelector('#dashboard-activities');
 const taskList = document.querySelector('#task-list');
 const plantsGrid = document.querySelector('#plants-grid');
+const catalogGrid = document.querySelector('#catalog-grid');
+const catalogSearch = document.querySelector('#catalog-search');
+const catalogCategory = document.querySelector('#catalog-category');
 const statusMessage = document.querySelector('#connection-status');
 const views = [...document.querySelectorAll('.view')];
 const demoGardener = { id: 'gardener-demo', name: 'Jardineira de Teste', role: 'Responsável de jardim', accountType: 'demo' };
+let catalogProducts = [];
 
 const samplePlants = [
   { id: 'demo-plant-a', label: 'Orquídea', interest: 'Rega moderada e luz indireta', progress: 76, color: 'mint' },
   { id: 'demo-plant-b', label: 'Lavanda', interest: 'Sol directo e drenagem leve', progress: 84, color: 'peach' },
   { id: 'demo-plant-c', label: 'Suculenta', interest: 'Humidade baixa e exposição solar', progress: 61, color: 'yellow' }
+];
+
+const sampleProducts = [
+  { id: 'product-rose', name: 'Rosa vermelha', category: 'Floração', description: 'Clássica, elegante e ideal para oferecer.', symbol: '🌹', color: 'rose' },
+  { id: 'product-orchid', name: 'Orquídea', category: 'Interior', description: 'Flor delicada que prefere luz indireta.', symbol: '🌸', color: 'orchid' },
+  { id: 'product-lavender', name: 'Lavanda', category: 'Floração', description: 'Aromática, resistente e amiga do sol.', symbol: '💐', color: 'lavender' },
+  { id: 'product-succulent', name: 'Suculenta', category: 'Suculentas', description: 'Fácil de cuidar e perfeita para pequenos espaços.', symbol: '🪴', color: 'succulent' },
+  { id: 'product-sunflower', name: 'Girassol', category: 'Floração', description: 'Uma flor cheia de cor para iluminar o jardim.', symbol: '🌻', color: 'sunflower' },
+  { id: 'product-monstera', name: 'Monstera', category: 'Interior', description: 'Folhagem tropical para dar destaque à casa.', symbol: '🌿', color: 'monstera' }
 ];
 
 function dateOffset(offset) {
@@ -45,16 +60,19 @@ async function seedStore(store, records) {
 }
 
 async function refreshDashboard() {
-  const [activities, tasks, plants] = await Promise.all([
+  const [activities, tasks, plants, products] = await Promise.all([
     getAllRecords('activities'),
     getAllRecords('tasks'),
-    getAllRecords('plants')
+    getAllRecords('plants'),
+    getAllRecords('catalog')
   ]);
+  catalogProducts = products;
   const orderedActivities = activities.sort((first, second) => `${first.date}${first.time}`.localeCompare(`${second.date}${second.time}`));
   renderActivities(activityList, orderedActivities);
   renderActivities(dashboardActivities, orderedActivities.slice(0, 3));
   renderTasks(taskList, tasks);
   renderPlants(plantsGrid, plants);
+  renderCatalog(catalogGrid, products, catalogSearch.value, catalogCategory.value);
   document.querySelector('#activity-count').textContent = String(activities.length);
   document.querySelector('#plants-count').textContent = String(plants.length);
   document.querySelector('#task-count').textContent = String(tasks.filter(task => !task.done).length);
@@ -73,6 +91,12 @@ function setView(name) {
 }
 
 document.querySelectorAll('[data-view-target]').forEach(button => button.addEventListener('click', () => setView(button.dataset.viewTarget)));
+catalogSearch.addEventListener('input', () => {
+  renderCatalog(catalogGrid, catalogProducts, catalogSearch.value, catalogCategory.value);
+});
+catalogCategory.addEventListener('change', () => {
+  renderCatalog(catalogGrid, catalogProducts, catalogSearch.value, catalogCategory.value);
+});
 
 document.querySelectorAll('[data-open-activity]').forEach(button => {
   button.addEventListener('click', () => {
@@ -83,7 +107,15 @@ document.querySelectorAll('[data-open-activity]').forEach(button => {
   });
 });
 
+document.querySelectorAll('[data-open-plant]').forEach(button => button.addEventListener('click', () => {
+  plantForm.reset();
+  plantForm.elements.health.value = '100';
+  plantDialog.showModal();
+  plantForm.elements.name.focus();
+}));
+
 document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => activityDialog.close()));
+document.querySelectorAll('[data-close-plant]').forEach(button => button.addEventListener('click', () => plantDialog.close()));
 document.querySelectorAll('[data-close-account]').forEach(button => button.addEventListener('click', () => accountDialog.close()));
 document.querySelectorAll('[data-close-login]').forEach(button => button.addEventListener('click', () => loginDialog.close()));
 document.querySelectorAll('[data-open-account]').forEach(button => button.addEventListener('click', () => {
@@ -116,6 +148,23 @@ accountForm.addEventListener('submit', async event => {
   document.querySelector('#educator-name').textContent = account.name;
   accountDialog.close();
   statusMessage.textContent = 'Conta criada com sucesso';
+});
+
+plantForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const formData = new FormData(plantForm);
+  const plants = await getAllRecords('plants');
+  const colors = ['mint', 'peach', 'yellow'];
+  await saveRecord('plants', {
+    id: `plant-${crypto.randomUUID()}`,
+    label: String(formData.get('name')).trim(),
+    interest: String(formData.get('care')).trim(),
+    progress: Number(formData.get('health')),
+    color: colors[plants.length % colors.length]
+  });
+  plantDialog.close();
+  await refreshDashboard();
+  statusMessage.textContent = 'Planta guardada neste dispositivo';
 });
 
 loginForm.addEventListener('submit', async event => {
@@ -178,6 +227,7 @@ try {
   await seedStore('activities', sampleActivities);
   await seedStore('tasks', sampleTasks);
   await seedStore('plants', samplePlants);
+  await seedStore('catalog', sampleProducts);
   const educators = await getAllRecords('educators');
   const educator = educators.find(item => item.id === demoGardener.id) || educators[0] || demoGardener;
   document.querySelector('#account-name').textContent = educator.name;

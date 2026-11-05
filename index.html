@@ -22,9 +22,11 @@
 				<button class="nav-item is-active" type="button" data-view-target="dashboard" aria-current="page"><span class="nav-symbol" aria-hidden="true">⌂</span>Visão geral</button>
 				<button class="nav-item" type="button" data-view-target="activities"><span class="nav-symbol" aria-hidden="true">▦</span>Atividades</button>
 				<button class="nav-item" type="button" data-view-target="plants"><span class="nav-symbol" aria-hidden="true">○</span>Plantas</button>
+				<button class="nav-item" type="button" data-view-target="catalog"><span class="nav-symbol" aria-hidden="true">❀</span>Catálogo</button>
 			</nav>
 			<div class="sidebar-note"><span class="note-flower" aria-hidden="true">✿</span><p>Cuidados diários<br>fazem o jardim florescer.</p></div>
 			<a class="sidebar-about" href="./pages/sobre.html">Conhecer a FloriApp <span aria-hidden="true">↗</span></a>
+			<a class="sidebar-about" href="./pages/contacto.html">Contacto <span aria-hidden="true">↗</span></a>
 		</aside>
 		<main class="main-content">
 			<section class="view" id="view-dashboard" aria-labelledby="dashboard-title">
@@ -53,9 +55,33 @@
 				<p class="local-note"><span aria-hidden="true">i</span> Esta versão de demonstração guarda os dados apenas neste dispositivo. Evita inserir informações sensíveis sobre clientes ou fornecedores.</p>
 			</section>
 			<section class="view" id="view-activities" aria-labelledby="activities-title" hidden><div class="page-heading"><div><p class="eyebrow">Planeamento do jardim</p><h1 id="activities-title">Atividades</h1><p class="heading-subtitle">Organiza regas, fertilização e manutenções para manter cada planta saudável.</p></div><button class="button button-primary" type="button" data-open-activity><span aria-hidden="true">+</span> Nova atividade</button></div><section class="panel activities-panel"><div class="section-heading"><div><p class="eyebrow">O que vem a seguir</p><h2>Agenda do jardim</h2></div><span class="list-caption">Guardada localmente</span></div><div class="activity-list" id="activity-list" aria-live="polite"></div></section></section>
-			<section class="view" id="view-plants" aria-labelledby="plants-title" hidden><div class="page-heading"><div><p class="eyebrow">Acompanhar o estado do jardim</p><h1 id="plants-title">Plantas</h1><p class="heading-subtitle">Uma visão rápida dos cuidados e do desenvolvimento de cada espécie.</p></div></div><div class="privacy-banner"><span aria-hidden="true">♡</span><p>Os perfis apresentados são exemplos de plantas em demonstração. Em uso real, confirma sempre as necessidades específicas de cada espécie.</p></div><div class="plants-grid" id="plants-grid"></div></section>
+			<section class="view" id="view-plants" aria-labelledby="plants-title" hidden><div class="page-heading"><div><p class="eyebrow">Acompanhar o estado do jardim</p><h1 id="plants-title">Plantas</h1><p class="heading-subtitle">Uma visão rápida dos cuidados e do desenvolvimento de cada espécie.</p></div><button class="button button-primary" type="button" data-open-plant><span aria-hidden="true">+</span> Adicionar planta</button></div><div class="privacy-banner"><span aria-hidden="true">♡</span><p>Os perfis de demonstração são exemplos. As plantas que adicionares ficam guardadas neste dispositivo.</p></div><div class="plants-grid" id="plants-grid"></div></section>
+			<section class="view" id="view-catalog" aria-labelledby="catalog-title" hidden>
+				<div class="page-heading"><div><p class="eyebrow">Seleção da floricultura</p><h1 id="catalog-title">Catálogo</h1><p class="heading-subtitle">Flores e plantas para levar mais vida ao teu espaço.</p></div></div>
+				<div class="catalog-toolbar">
+					<label class="catalog-search-label" for="catalog-search">Pesquisar no catálogo</label>
+					<input id="catalog-search" type="search" placeholder="Pesquisar flores e plantas..." autocomplete="off">
+					<label class="catalog-search-label" for="catalog-category">Categoria</label>
+					<select id="catalog-category">
+						<option value="all">Todas as categorias</option>
+						<option value="Floração">Floração</option>
+						<option value="Interior">Plantas de interior</option>
+						<option value="Suculentas">Suculentas</option>
+					</select>
+				</div>
+				<div class="catalog-grid" id="catalog-grid" aria-live="polite"></div>
+			</section>
 		</main>
 	</div>
+	<dialog class="activity-dialog" id="plant-dialog" aria-labelledby="plant-dialog-title">
+		<form id="plant-form"><div class="dialog-heading"><div><p class="eyebrow">Coleção do jardim</p><h2 id="plant-dialog-title">Adicionar planta</h2></div><button class="dialog-close" type="button" aria-label="Fechar" data-close-plant>×</button></div>
+			<label class="field-label" for="plant-name">Nome da planta</label><input id="plant-name" name="name" required maxlength="60" placeholder="Ex.: Rosa trepadeira">
+			<label class="field-label" for="plant-care">Cuidados em destaque</label><textarea id="plant-care" name="care" required maxlength="160" rows="3" placeholder="Ex.: Sol direto e rega regular"></textarea>
+			<label class="field-label" for="plant-health">Estado de saúde (%)</label><input id="plant-health" name="health" type="number" min="0" max="100" value="100" required>
+			<p class="form-privacy">Podes alterar esta informação mais tarde, se necessário.</p>
+			<div class="dialog-actions"><button class="button button-quiet" type="button" data-close-plant>Cancelar</button><button class="button button-primary" type="submit">Guardar planta</button></div>
+		</form>
+	</dialog>
 	<dialog class="activity-dialog" id="activity-dialog" aria-labelledby="dialog-title">
 		<form id="activity-form"><div class="dialog-heading"><div><p class="eyebrow">Planeamento do jardim</p><h2 id="dialog-title">Nova atividade</h2></div><button class="dialog-close" type="button" aria-label="Fechar" data-close-dialog>×</button></div>
 			<label class="field-label" for="activity-title">Nome da atividade</label><input id="activity-title" name="title" required maxlength="80" placeholder="Ex.: Rega dos canteiros de rosas">
@@ -81,7 +107,7 @@
 			<div class="dialog-actions"><button class="button button-quiet" type="button" data-close-login>Cancelar</button><button class="button button-primary" type="submit">Entrar</button></div>
 		</form>
 	</dialog>
-	<footer class="app-footer"><span>FloriApp · Projeto de floricultura · v1.1.0</span><a href="./pages/sobre.html">Introdução e enquadramento</a></footer>
+	<footer class="app-footer"><span>FloriApp · Projeto de floricultura · v1.5.0</span><div class="footer-links"><a href="./pages/sobre.html">Sobre</a><a href="./pages/contacto.html">Contacto</a></div></footer>
 	<script type="module" src="./assets/js/app.js"></script>
 </body>
 </html>

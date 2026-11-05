@@ -48,6 +48,14 @@ export function renderTasks(container, tasks) {
 }
 
 export function renderPlants(container, plants) {
+  if (!container) return;
+  if (plants.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'empty-message';
+    empty.textContent = 'Ainda não tens plantas registadas. Adiciona a primeira para começar a tua coleção.';
+    container.replaceChildren(empty);
+    return;
+  }
   container.replaceChildren(...plants.map(plant => {
     const article = document.createElement('article');
     article.className = `plant-item plant-${plant.color}`;
@@ -71,6 +79,45 @@ export function renderPlants(container, plants) {
     progress.value = plant.progress;
     progress.setAttribute('aria-label', `Estado de saúde: ${plant.progress}%`);
     article.append(avatar, name, caption, interest, progressLabel, progress);
+    return article;
+  }));
+}
+
+export function renderCatalog(container, products, search = '', category = 'all') {
+  if (!container) return;
+  const query = search.trim().toLocaleLowerCase('pt-PT');
+  const matchingProducts = products.filter(product => {
+    const matchesCategory = category === 'all' || product.category === category;
+    const searchableText = `${product.name} ${product.description} ${product.category}`.toLocaleLowerCase('pt-PT');
+    return matchesCategory && searchableText.includes(query);
+  });
+
+  if (matchingProducts.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'empty-message';
+    empty.textContent = 'Não encontrámos produtos com esses filtros.';
+    container.replaceChildren(empty);
+    return;
+  }
+
+  container.replaceChildren(...matchingProducts.map(product => {
+    const article = document.createElement('article');
+    article.className = `catalog-card catalog-${product.color}`;
+    const illustration = document.createElement('div');
+    illustration.className = 'catalog-illustration';
+    illustration.setAttribute('aria-hidden', 'true');
+    illustration.textContent = product.symbol;
+    const details = document.createElement('div');
+    details.className = 'catalog-details';
+    const categoryLabel = document.createElement('span');
+    categoryLabel.className = 'catalog-category';
+    categoryLabel.textContent = product.category;
+    const name = document.createElement('h2');
+    name.textContent = product.name;
+    const description = document.createElement('p');
+    description.textContent = product.description;
+    details.append(categoryLabel, name, description);
+    article.append(illustration, details);
     return article;
   }));
 }

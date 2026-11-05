@@ -1,13 +1,15 @@
-const CACHE_NAME = 'floriapp-jardim-v2';
+const CACHE_NAME = 'floriapp-jardim-v6';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
   './pages/offline.html',
   './pages/sobre.html',
+  './pages/contacto.html',
   './assets/css/styles.css',
   './assets/css/components/dashboard.css',
   './assets/js/app.js',
+  './assets/js/contact.js',
   './assets/js/db.js',
   './assets/js/modules/api.js',
   './assets/js/modules/UI.js',
